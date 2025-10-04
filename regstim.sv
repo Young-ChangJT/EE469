@@ -28,8 +28,8 @@ module regstim();
 	end
 
 	initial begin
-		$dumpfile("reg.vcd");
-        $dumpvars(0, regstim);
+		// $dumpfile("reg.vcd");
+        // $dumpvars(0, regstim);
 		// Try to write the value 0xA0 into register 31.
 		// Register 31 should always be at the value of 0.
 		RegWrite <= 5'd0;
