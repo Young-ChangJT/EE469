@@ -68,6 +68,32 @@ module regstim();
 			WriteData <= i*64'h0000000000000100+i;
 			@(posedge clk);
 		end
+		$display("%t Check complete.", $time);
+
+		// read/write register 5 in the same time
+		$display("%t read/write register 5 in the same time", $time);
+		RegWrite <= 1;
+		WriteRegister <= 5'd5;
+		WriteData <= 64'h123456789ABCDEF0;
+		ReadRegister1 <= 5'd5;
+		@(posedge clk);
+		RegWrite <= 0;
+		@(posedge clk);
+		$display("Register 5 after write = %h (should be 123456789ABCDEF0)", ReadData1);
+
+		// write same register in two consecutive cycles
+		$display("%t write same register in two consecutive cycles", $time);
+		RegWrite <= 1;
+		WriteRegister <= 5'd10;
+		WriteData <= 64'h1111111111111111;
+		@(posedge clk);
+		WriteData <= 64'h2222222222222222;
+		@(posedge clk);
+		RegWrite <= 0;
+		ReadRegister1 <= 5'd10;
+		@(posedge clk);
+		$display("Register 10 = %h (should be 2222222222222222)", ReadData1);
+
 		$stop;
 	end
 endmodule
